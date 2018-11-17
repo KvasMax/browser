@@ -5,7 +5,6 @@ import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -111,6 +110,7 @@ import de.baumann.browser.Unit.BrowserUnit;
 import de.baumann.browser.Unit.HelperUnit;
 import de.baumann.browser.Unit.IntentUnit;
 import de.baumann.browser.Unit.ViewUnit;
+import de.baumann.browser.View.Adapter_Record;
 import de.baumann.browser.View.CompleteAdapter;
 import de.baumann.browser.View.FullscreenHolder;
 import de.baumann.browser.View.GridAdapter;
@@ -118,9 +118,8 @@ import de.baumann.browser.View.GridItem;
 import de.baumann.browser.View.NinjaRelativeLayout;
 import de.baumann.browser.View.NinjaToast;
 import de.baumann.browser.View.NinjaWebView;
-import de.baumann.browser.View.Adapter_Record;
-import de.baumann.browser.View.SwipeTouchListener;
 import de.baumann.browser.View.SwipeToBoundListener;
+import de.baumann.browser.View.SwipeTouchListener;
 import de.baumann.browser.View.SwitcherPanel;
 
 import static android.content.ContentValues.TAG;
@@ -2784,7 +2783,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         customView.setKeepScreenOn(true);
         ((View) currentAlbumController).setVisibility(View.GONE);
-        setCustomFullscreen(true);
 
         if (view instanceof FrameLayout) {
             if (((FrameLayout) view).getFocusedChild() instanceof VideoView) {
@@ -2810,7 +2808,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         customView.setKeepScreenOn(false);
         ((View) currentAlbumController).setVisibility(View.VISIBLE);
-        setCustomFullscreen(false);
+        showOmnibox();
 
         fullscreenHolder = null;
         customView = null;
@@ -3526,16 +3524,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         AlertDialog dialog = builder.create();
         dialog.show();
         showSoftInput(editText);
-    }
-
-    private void setCustomFullscreen(boolean fullscreen) {
-        View decorView = getWindow().getDecorView();
-        if (fullscreen) {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-        } else {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            showOmnibox();
-        }
     }
 
     private AlbumController nextAlbumController(boolean next) {
